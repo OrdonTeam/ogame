@@ -1,4 +1,4 @@
-package pl.elpassion.news
+package io.github.ordonteam.ogame
 
 import org.junit.Assert.assertTrue
 import org.junit.Test

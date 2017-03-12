@@ -1,1 +1,3 @@
-rootProject.name = 'news'
+rootProject.name = 'ogame'
+include 'core'
+

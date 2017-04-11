@@ -7,15 +7,11 @@ import org.openqa.selenium.phantomjs.PhantomJSDriver
 
 class GetFleetMovementIntegrationTest {
 
-    val login = "login"
-    val password = "password"
-    val server = "s"
-
     @Test
     @Ignore
     fun shouldGetFleetMovement() {
         val webDriver = PhantomJSDriver()
-        login(webDriver, login, password, server)
+        loginHelper(webDriver)
         assertThat(getFleetMovement(webDriver)).hasSize(2)
     }
 }

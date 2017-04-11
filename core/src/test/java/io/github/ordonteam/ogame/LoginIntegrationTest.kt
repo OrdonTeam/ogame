@@ -7,15 +7,11 @@ import org.openqa.selenium.phantomjs.PhantomJSDriver
 
 class LoginIntegrationTest {
 
-    val login = "login"
-    val password = "password"
-    val server = "s"
-
     @Test
     @Ignore
     fun shouldLogin() {
         val webDriver = PhantomJSDriver()
-        login(webDriver, login, password, server)
+        loginHelper(webDriver)
         assertThat(webDriver.findElementById("playerName").text).contains(login)
     }
 }

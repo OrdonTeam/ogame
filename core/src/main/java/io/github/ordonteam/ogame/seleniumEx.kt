@@ -6,6 +6,8 @@ import org.openqa.selenium.WebElement
 
 fun WebDriver.findElementById(id: String): WebElement = findElement(By.id(id))
 
+fun WebDriver.findElementsById(id: String): List<WebElement> = findElements(By.id(id))
+
 fun WebDriver.findElementsByClassName(className: String): List<WebElement> = findElements(By.className(className))
 
 fun WebElement.hasElementWithClassName(className: String) = findElements(By.className(className)).isNotEmpty()

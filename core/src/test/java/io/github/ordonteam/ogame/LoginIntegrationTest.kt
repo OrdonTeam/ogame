@@ -12,6 +12,6 @@ class LoginIntegrationTest {
     fun shouldLogin() {
         val webDriver = PhantomJSDriver()
         loginHelper(webDriver)
-        assertTrue(isLoggedIn(webDriver, login))
+        assertTrue(isLoggedIn(webDriver))
     }
 }

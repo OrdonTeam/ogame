@@ -13,3 +13,14 @@ fun WebDriver.findElementsByClassName(className: String): List<WebElement> = fin
 fun WebElement.hasElementWithClassName(className: String) = findElements(By.className(className)).isNotEmpty()
 
 fun WebDriver.hasElementWithId(id: String) = findElements(By.id(id)).isNotEmpty()
+
+fun WebDriver.hasElementWithClassName(className: String) = findElements(By.className(className)).isNotEmpty()
+
+fun WebDriver.waitForElementWithClassName(className: String) {
+    for (i in 0..10) {
+        if (hasElementWithClassName(className)) {
+            return
+        }
+        Thread.sleep(100)
+    }
+}

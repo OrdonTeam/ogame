@@ -14,11 +14,11 @@ class GetFleetMovementController {
 
     @GetMapping("/fleet_movement")
     fun getFleetMovement(): FleetMoments {
-        if (!isLoggedIn(webDriver, login)) {
+        if (!isLoggedIn(webDriver)) {
             login(webDriver, login, password, server)
         }
-        return FleetMoments(getFleetMovement(webDriver), System.currentTimeMillis().toString())
+        return FleetMoments(getFleetMovement(webDriver), System.currentTimeMillis())
     }
 
-    data class FleetMoments(val fleet_movement: List<FleetMovement>, val timestamp: String)
+    data class FleetMoments(val fleet_movement: List<FleetMovement>, val timestamp: Long)
 }

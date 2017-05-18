@@ -79,7 +79,7 @@ fun RemoteWebDriver.startFarming() {
 
 fun RemoteWebDriver.attack(sin: String, galaxy: Int, system: Int, planet: Int) {
     spy(sin, galaxy, system, planet)
-    if (readReport(sin, galaxy, system, planet) > 4_000_000_000) {
+    if (readReport(sin, galaxy, system, planet) > 2_000_000_000) {
         sendFleet(sin, galaxy, system, planet)
     }
 }

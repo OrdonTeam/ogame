@@ -22,8 +22,8 @@ fun loopOnce(block: RemoteWebDriver.() -> Unit) {
         driver.block()
     } catch (e: Exception) {
         e.printStackTrace()
-    } finally {
         Thread.sleep(3 * 60 * 1000L)
+    } finally {
         driver.close()
     }
 }

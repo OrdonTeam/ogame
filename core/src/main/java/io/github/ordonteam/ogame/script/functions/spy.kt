@@ -1,6 +1,7 @@
 package io.github.ordonteam.ogame.script.functions
 
 import io.github.ordonteam.ogame.script.model.Fleet
+import io.github.ordonteam.ogame.script.model.Ship
 import io.github.ordonteam.ogame.script.model.SpyReport
 import org.openqa.selenium.By
 import org.openqa.selenium.WebElement
@@ -44,8 +45,12 @@ private fun RemoteWebDriver.doReadReport(sin: String, galaxy: Int, system: Int, 
 }
 
 private fun RemoteWebDriver.readFleet(): Fleet {
-    return Fleet(
-            isEmpty = findElementByCssSelector(FLEET_TABLE).findElements(By.tagName("tr")).size == 1)
+    val hasShips = findElementByCssSelector(FLEET_TABLE).findElements(By.tagName("tr")).size == 1
+    if (hasShips) {
+        return Fleet(mapOf(Ship.ULTRA_TRANSPORTER to 1L))
+    } else {
+        return Fleet(emptyMap())
+    }
 }
 
 private fun WebElement.toLongWithoutDots() = text.replace(".", "").toLong()

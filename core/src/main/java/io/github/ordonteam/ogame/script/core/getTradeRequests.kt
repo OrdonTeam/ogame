@@ -1,6 +1,7 @@
 package io.github.ordonteam.ogame.script.core
 
 fun getTradeRequests(metal: Long, crystal: Long, deuterium: Long): Triple<Pair<Long, Long>, Pair<Long, Long>, Pair<Long, Long>> {
+    println("getTradeRequests input: $metal $crystal $deuterium")
     val totalInMetal = metal + 2 * crystal + 4 * deuterium
     val deathStarCostInMetal = 5_000_000 + 4_000_000 * 2 + 1_000_000 * 4
     val deathStars = totalInMetal / deathStarCostInMetal
@@ -10,10 +11,12 @@ fun getTradeRequests(metal: Long, crystal: Long, deuterium: Long): Triple<Pair<L
     val metalToTrade = metal - metalUsage
     val crystalToTrade = crystal - crystalUsage
     val deuteriumToTrade = deuterium - deuteriumUsage
-    return Triple(
+    val triple = Triple(
             tradeMetal(metalToTrade, crystalToTrade, deuteriumToTrade),
             tradeCrystal(metalToTrade, crystalToTrade, deuteriumToTrade),
             tradeDeuterium(metalToTrade, crystalToTrade, deuteriumToTrade))
+    println("getTradeRequests output: $triple")
+    return triple
 }
 
 fun tradeMetal(metalToTrade: Long, crystalToTrade: Long, deuteriumToTrade: Long): Pair<Long, Long> {
@@ -26,7 +29,7 @@ fun tradeMetal(metalToTrade: Long, crystalToTrade: Long, deuteriumToTrade: Long)
             0
         }
         val deuterium = if (deuteriumToTrade < 0) {
-            metalToTrade / 4
+            (metalToTrade / 2 - crystal) / 2
         } else {
             0
         }

@@ -38,13 +38,16 @@ private fun RemoteWebDriver.buildOn(sin: String, cp: String) {
     Thread.sleep(1000)
 }
 
+val MAX_DEATH_STAR = "body > center > form > table:nth-child(6) > tbody > tr:nth-child(14) > th:nth-child(3) > span > a"
+val BUILD = "body > center > form > table:nth-child(6) > tbody > tr:nth-child(18) > th > input[type=\"Submit\"]"
+
 private fun RemoteWebDriver.doBuild(sin: String) {
     Thread.sleep(1000)
     get("http://uni9.ogam.net.pl/index.php?page=buildings&mode=fleet&sin=$sin")
     Thread.sleep(1000)
-    findElementByCssSelector("body > center > form > table:nth-child(6) > tbody > tr:nth-child(13) > th:nth-child(3) > span > a").click()
+    findElementByCssSelector(MAX_DEATH_STAR).click()
     Thread.sleep(1000)
-    findElementByCssSelector("body > center > form > table:nth-child(6) > tbody > tr:nth-child(17) > th > input[type=\"Submit\"]").click()
+    findElementByCssSelector(BUILD).click()
 }
 
 private fun RemoteWebDriver.tradeMetal(metalToTrade: Pair<Long, Long>) {

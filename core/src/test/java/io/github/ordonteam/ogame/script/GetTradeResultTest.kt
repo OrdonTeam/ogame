@@ -53,4 +53,14 @@ class GetTradeResultTest {
         Assert.assertEquals(0, getTradeRequests(8_000_000, 4_000_000, 1_000_000).third.second)
     }
 
+    @Test
+    fun shouldPassRealLiveExample() {
+        val (metal, crystal, deuterium) = getTradeRequests(1367_000_000, 617_000_000, 118_000_000)
+        Assert.assertEquals(103_000_000, metal.first)
+        Assert.assertEquals(62_000_000 + 3_250_000, metal.second)
+        Assert.assertEquals(0, crystal.first)
+        Assert.assertEquals(0, crystal.second)
+        Assert.assertEquals(0, deuterium.first)
+        Assert.assertEquals(0, deuterium.second)
+    }
 }

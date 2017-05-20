@@ -1,5 +1,6 @@
 package io.github.ordonteam.ogame.script
 
+import io.github.ordonteam.ogame.script.functions.Mission
 import io.github.ordonteam.ogame.script.functions.generateNewSpyReport
 import io.github.ordonteam.ogame.script.functions.loginAndGetSin
 import io.github.ordonteam.ogame.script.functions.sendFleet
@@ -84,7 +85,7 @@ fun RemoteWebDriver.startFarming() {
 fun RemoteWebDriver.attack(sin: String, position: Position) {
     val report = generateNewSpyReport(sin, position.galaxy, position.system, position.planet)
     if (report.resources > 2_000_000_000) {
-        sendFleet(sin, position, Fleet(mapOf(Ship.ULTRA_TRANSPORTER to 500_000L)))
+        sendFleet(sin, position, Fleet(mapOf(Ship.ULTRA_TRANSPORTER to 500_000L)), Mission.ATTACK)
     }
 }
 

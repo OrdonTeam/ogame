@@ -1,5 +1,6 @@
 package io.github.ordonteam.ogame
 
+import io.github.ordonteam.ogame.noscript.getFleetMovement
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Ignore
 import org.junit.Test

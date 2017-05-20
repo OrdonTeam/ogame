@@ -28,8 +28,9 @@ private fun search() {
         Gson().fromJson<List<PlayerPoints>>(json, type)
     }
     points
-            .filter { it.points < 20_000_000_000}
-            .filter { it.points > 1_000_000_000}
+            .filter { it.id == "5506" }
+//            .filter { it.points < 20_000_000_000}
+//            .filter { it.points > 1_000_000_000}
             .forEach { player ->
                 val playersPlanets = planets.filter { it.id == player.id }
                 val moonsCount = playersPlanets.count { it.hasMoon ?: false }

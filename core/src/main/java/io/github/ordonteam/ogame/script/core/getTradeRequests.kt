@@ -1,4 +1,4 @@
-package io.github.ordonteam.ogame.script
+package io.github.ordonteam.ogame.script.core
 
 fun getTradeRequests(metal: Long, crystal: Long, deuterium: Long): Triple<Pair<Long, Long>, Pair<Long, Long>, Pair<Long, Long>> {
     val totalInMetal = metal + 2 * crystal + 4 * deuterium

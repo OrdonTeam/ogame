@@ -1,5 +1,7 @@
 package io.github.ordonteam.ogame.script
 
+import io.github.ordonteam.ogame.script.core.getTradeRequests
+import io.github.ordonteam.ogame.script.functions.loginAndGetSin
 import org.openqa.selenium.remote.RemoteWebDriver
 import org.openqa.selenium.support.ui.Select
 

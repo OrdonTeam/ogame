@@ -1,5 +1,6 @@
 package io.github.ordonteam.ogame
 
+import io.github.ordonteam.ogame.noscript.isLoggedIn
 import org.junit.Assert.assertTrue
 import org.junit.Ignore
 import org.junit.Test

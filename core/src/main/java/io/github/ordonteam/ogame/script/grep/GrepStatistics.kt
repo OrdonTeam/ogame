@@ -1,7 +1,7 @@
 package io.github.ordonteam.ogame.script.grep
 
 import com.google.gson.GsonBuilder
-import io.github.ordonteam.ogame.script.loginAndGetSin
+import io.github.ordonteam.ogame.script.functions.loginAndGetSin
 import io.github.ordonteam.ogame.script.loopOnce
 import java.io.File
 

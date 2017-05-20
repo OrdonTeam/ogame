@@ -1,14 +1,11 @@
-package io.github.ordonteam.ogame
+package io.github.ordonteam.ogame.noscript
 
-import org.openqa.selenium.By
-import org.openqa.selenium.WebDriver
-
-fun build(webDriver: WebDriver, building: Building) {
+fun build(webDriver: org.openqa.selenium.WebDriver, building: io.github.ordonteam.ogame.noscript.Building) {
     webDriver.get("https://s146-pl.ogame.gameforge.com/game/index.php?page=${building.page}")
     webDriver.findElementById(building.button)
-            .findElement(By.tagName("div"))
-            .findElement(By.tagName("div"))
-            .findElements(By.tagName("a"))[0]
+            .findElement(org.openqa.selenium.By.tagName("div"))
+            .findElement(org.openqa.selenium.By.tagName("div"))
+            .findElements(org.openqa.selenium.By.tagName("a"))[0]
             .click()
 }
 

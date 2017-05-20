@@ -1,5 +1,6 @@
 package io.github.ordonteam.ogame.script
 
+import io.github.ordonteam.ogame.script.core.getTradeRequests
 import org.junit.Assert
 import org.junit.Test
 

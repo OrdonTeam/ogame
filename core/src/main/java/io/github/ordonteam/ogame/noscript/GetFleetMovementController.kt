@@ -1,7 +1,5 @@
-package io.github.ordonteam.ogame
+package io.github.ordonteam.ogame.noscript
 
-import org.openqa.selenium.phantomjs.PhantomJSDriver
-import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -10,9 +8,9 @@ class GetFleetMovementController {
     private val login = System.getenv("OGAME_LOGIN")
     private val password = System.getenv("OGAME_PASSWORD")
     private val server = System.getenv("OGAME_SERVER")
-    private val webDriver = PhantomJSDriver()
+    private val webDriver = org.openqa.selenium.phantomjs.PhantomJSDriver()
 
-    @GetMapping("/fleet_movement")
+    @org.springframework.web.bind.annotation.GetMapping("/fleet_movement")
     fun getFleetMovement(): FleetMoments {
         if (!isLoggedIn(webDriver)) {
             login(webDriver, login, password, server)

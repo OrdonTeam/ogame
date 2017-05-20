@@ -1,4 +1,4 @@
-package io.github.ordonteam.ogame
+package io.github.ordonteam.ogame.noscript
 
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication

@@ -1,5 +1,7 @@
 package io.github.ordonteam.ogame
 
+import io.github.ordonteam.ogame.noscript.Building
+import io.github.ordonteam.ogame.noscript.build
 import org.assertj.core.api.Assertions
 import org.junit.Ignore
 import org.junit.Test

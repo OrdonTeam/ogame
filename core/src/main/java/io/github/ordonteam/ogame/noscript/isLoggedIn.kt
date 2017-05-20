@@ -1,8 +1,6 @@
-package io.github.ordonteam.ogame
+package io.github.ordonteam.ogame.noscript
 
-import org.openqa.selenium.WebDriver
-
-fun isLoggedIn(webDriver: WebDriver): Boolean {
+fun isLoggedIn(webDriver: org.openqa.selenium.WebDriver): Boolean {
     webDriver.get("https://s146-pl.ogame.gameforge.com/game/index.php?page=overview")
     return webDriver.hasElementWithId("playerName")
 }

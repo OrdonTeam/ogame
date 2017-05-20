@@ -1,4 +1,4 @@
-package io.github.ordonteam.ogame.script
+package io.github.ordonteam.ogame.script.functions
 
 import org.openqa.selenium.remote.RemoteWebDriver
 

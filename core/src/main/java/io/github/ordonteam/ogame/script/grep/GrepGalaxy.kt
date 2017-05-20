@@ -1,9 +1,9 @@
 package io.github.ordonteam.ogame.script.grep
 
 import com.google.gson.GsonBuilder
-import io.github.ordonteam.ogame.script.loginAndGetSin
+import io.github.ordonteam.ogame.script.functions.loginAndGetSin
 import io.github.ordonteam.ogame.script.loopOnce
-import io.github.ordonteam.ogame.script.utils.wait
+import io.github.ordonteam.ogame.utils.wait
 import org.openqa.selenium.By
 import org.openqa.selenium.remote.RemoteWebDriver
 import java.io.File

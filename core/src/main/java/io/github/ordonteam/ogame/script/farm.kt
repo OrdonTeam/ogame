@@ -1,5 +1,8 @@
 package io.github.ordonteam.ogame.script
 
+import io.github.ordonteam.ogame.script.functions.generateNewSpyReport
+import io.github.ordonteam.ogame.script.functions.loginAndGetSin
+import io.github.ordonteam.ogame.script.functions.sendFleet
 import org.openqa.selenium.remote.RemoteWebDriver
 import java.util.*
 
@@ -84,20 +87,3 @@ fun RemoteWebDriver.attack(sin: String, galaxy: Int, system: Int, planet: Int) {
     }
 }
 
-private fun RemoteWebDriver.sendFleet(sin: String, galaxy: Int, system: Int, planet: Int) {
-    get("http://uni9.ogam.net.pl/index.php?page=fleet&from=rs&mode=raport&galaxy=$galaxy&system=$system&planet=$planet&planettype=1&target_mission=1")
-    findElementById("217").sendKeys("500000")
-    findElementByClassName("planet").click()
-    findElementByXPath("//input[@type='submit']").click()
-    findElementByXPath("//input[@type='submit']").click()
-}
-
-private fun RemoteWebDriver.debug() {
-    while (true) {
-        try {
-            findElementsByCssSelector(Scanner(System.`in`).nextLine()).forEachIndexed { i, it -> println(i.toString() + " " + it.text) }
-        } catch (e: Exception) {
-
-        }
-    }
-}

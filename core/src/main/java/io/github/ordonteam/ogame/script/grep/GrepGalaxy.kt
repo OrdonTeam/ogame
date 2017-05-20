@@ -3,9 +3,9 @@ package io.github.ordonteam.ogame.script.grep
 import com.google.gson.GsonBuilder
 import io.github.ordonteam.ogame.script.loginAndGetSin
 import io.github.ordonteam.ogame.script.loopOnce
+import io.github.ordonteam.ogame.script.utils.wait
 import org.openqa.selenium.By
 import org.openqa.selenium.remote.RemoteWebDriver
-import org.openqa.selenium.support.ui.WebDriverWait
 import java.io.File
 
 object GrepGalaxy {
@@ -26,7 +26,7 @@ object GrepGalaxy {
 
 private fun RemoteWebDriver.readPlanetsFromPage(sin: String, galaxy: Int, system: Int): List<Planet> {
     get("http://uni9.ogam.net.pl/index.php?page=galaxy&sin=$sin&galaxy=$galaxy&system=$system")
-    WebDriverWait(this, 3).until({ findElementsByCssSelector("#loadgalaxy > table").size > 0 })
+    wait(3, { findElementsByCssSelector("#loadgalaxy > table").size > 0 })
     val planets = findElementByCssSelector("#loadgalaxy > table > tbody")
             .findElements(By.tagName("tr"))
             .drop(1)

@@ -1,37 +1,59 @@
 package io.github.ordonteam.ogame.script.grep
 
+import com.google.gson.GsonBuilder
 import io.github.ordonteam.ogame.script.loginAndGetSin
 import io.github.ordonteam.ogame.script.loopOnce
+import org.openqa.selenium.By
+import org.openqa.selenium.remote.RemoteWebDriver
+import org.openqa.selenium.support.ui.WebDriverWait
+import java.io.File
 
 object GrepGalaxy {
     @JvmStatic
     fun main(args: Array<String>) {
         loopOnce {
             val sin = loginAndGetSin()
-            get("http://uni9.ogam.net.pl/index.php?page=galaxy&sin=$sin")
-            println(findElementById("loadgalaxy").getAttribute("innerHTML"))
-//            val readPlanetsFromPage = readPlanetsFromPage(2, 373)
-//            println("readPlanetsFromPage.size=" + readPlanetsFromPage.size)
-//            readPlanetsFromPage.forEach {
-//                println(it)
-//            }
+            (1..11).forEach { galaxy ->
+                (1..499).forEach { system ->
+                    if (!File("ogam/planets$galaxy-$system.json").exists()) {
+                        saveOne(galaxy, system, readPlanetsFromPage(sin, galaxy, system))
+                    }
+                }
+            }
         }
     }
 }
 
-//
-//private fun RemoteWebDriver.readPlanetsFromPage(galaxy: Int, system: Int): List<Planet> {
-//    Thread.sleep(2000)
-//    val planets = findElementsByXPath("//tr[onclick]")
-//    println(planets.size)
-//    return planets.mapIndexed { position, planet ->
-//        val isPlanet = planet.findElements(By.tagName("th"))[1].findElements(By.tagName("a")).isNotEmpty()
-//        if (isPlanet) {
-//            Planet(galaxy, system, position - 1)
-//        } else {
-//            null
-//        }
-//    }.filterNotNull()
-//}
+private fun RemoteWebDriver.readPlanetsFromPage(sin: String, galaxy: Int, system: Int): List<Planet> {
+    get("http://uni9.ogam.net.pl/index.php?page=galaxy&sin=$sin&galaxy=$galaxy&system=$system")
+    WebDriverWait(this, 3).until({ findElementsByCssSelector("#loadgalaxy > table").size > 0 })
+    val planets = findElementByCssSelector("#loadgalaxy > table > tbody")
+            .findElements(By.tagName("tr"))
+            .drop(1)
+            .take(15)
+    println(planets.size)
+    return planets.mapIndexed { position, planet ->
+        val isPlanet = planet.findElements(By.tagName("td"))[1].findElements(By.tagName("a")).isNotEmpty()
+        if (isPlanet) {
+            val hasPlayer = planet.findElements(By.tagName("td"))[5].findElements(By.tagName("a")).isNotEmpty()
+            if (hasPlayer) {
+                val linkWithId = planet.findElements(By.tagName("td"))[5].findElement(By.tagName("a")).getAttribute("onmouseover")
+                val idAndSuffix = linkWithId.drop(linkWithId.indexOf("write&id=") + 9)
+                val id = idAndSuffix.take(idAndSuffix.indexOf("&"))
+                val hasMoon = planet.findElements(By.tagName("td"))[3].findElements(By.tagName("a")).isNotEmpty()
+                Planet(galaxy, system, position + 1, id, hasMoon)
+            } else {
+                Planet(galaxy, system, position + 1, null, null)
+            }
+        } else {
+            null
+        }
+    }.filterNotNull()
+}
 
-data class Planet(val galaxy: Int, val system: Int, val position: Int)
+data class Planet(val galaxy: Int, val system: Int, val position: Int, val id: String?, val hasMoon: Boolean?)
+
+private fun saveOne(galaxy: Int, system: Int, planets: List<Planet>): List<Planet> {
+    File("ogam/planets$galaxy-$system.json").writeText(GsonBuilder().setPrettyPrinting().create().toJson(planets))
+    return planets
+}

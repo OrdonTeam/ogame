@@ -47,10 +47,12 @@ private fun RemoteWebDriver.doBuild(sin: String) {
 
 private fun RemoteWebDriver.tradeMetal(metalToTrade: Pair<Long, Long>) {
     if (metalToTrade.first + metalToTrade.second > 0L) {
+        Thread.sleep(1000)
         findElementByCssSelector("body > center > form > table:nth-child(2) > tbody > tr:nth-child(2) > th:nth-child(1) > input[type=\"submit\"]").click()
         findElementById("1").sendKeys(metalToTrade.first.toString())
         findElementById("2").sendKeys(metalToTrade.second.toString())
         findElementByCssSelector("#marchand > table > tbody > tr:nth-child(5) > th > input[type=\"submit\"]").click()
+        Thread.sleep(1000)
     }
 }
 
@@ -63,6 +65,7 @@ private fun RemoteWebDriver.tradeCrystal(sin: String, cp: String, crystalToTrade
         findElementById("1").sendKeys(crystalToTrade.first.toString())
         findElementById("2").sendKeys(crystalToTrade.second.toString())
         findElementByCssSelector("#marchand > table > tbody > tr:nth-child(6) > th > input[type=\"submit\"]").click()
+        Thread.sleep(1000)
     }
 }
 
@@ -76,5 +79,6 @@ private fun RemoteWebDriver.tradeDeuterium(sin: String, cp: String, deuteriumToT
         findElementById("1").sendKeys(deuteriumToTrade.first.toString())
         findElementById("2").sendKeys(deuteriumToTrade.second.toString())
         findElementByCssSelector("#marchand > table > tbody > tr:nth-child(5) > th > input[type=\"submit\"]").click()
+        Thread.sleep(1000)
     }
 }

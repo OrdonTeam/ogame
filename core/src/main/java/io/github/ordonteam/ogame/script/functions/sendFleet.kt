@@ -20,5 +20,6 @@ fun RemoteWebDriver.sendFleet(sin: String, target: Position, fleet: Fleet, missi
 }
 
 enum class Mission(val type: String) {
-    ATTACK("1")
+    ATTACK("1"),
+    SPY("6")
 }

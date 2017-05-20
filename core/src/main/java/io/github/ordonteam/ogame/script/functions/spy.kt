@@ -1,6 +1,7 @@
 package io.github.ordonteam.ogame.script.functions
 
 import io.github.ordonteam.ogame.script.model.Fleet
+import io.github.ordonteam.ogame.script.model.Position
 import io.github.ordonteam.ogame.script.model.Ship
 import io.github.ordonteam.ogame.script.model.SpyReport
 import org.openqa.selenium.By
@@ -15,17 +16,13 @@ private val DEUTERIUM_IN_REPORT = "body > center > center > table > tbody > tr >
 private val FLEET_TABLE = "body > center > center > table > tbody > tr > td:nth-child(2) > table:nth-child(2) > tbody > tr > td:nth-child(2) > table > tbody > tr:nth-child(5) > td:nth-child(2) > table:nth-child(2) > tbody"
 
 fun RemoteWebDriver.generateNewSpyReport(sin: String, galaxy: Int, system: Int, planet: Int): SpyReport {
-    spy(sin, galaxy, system, planet)
+    spy(sin, Position(galaxy, system, planet))
     val report = readReport(sin, galaxy, system, planet)
     return report
 }
 
-private fun RemoteWebDriver.spy(sin: String, galaxy: Int, system: Int, planet: Int) {
-    get("http://uni9.ogam.net.pl/index.php?page=fleet&from=rs&mode=raport&galaxy=$galaxy&system=$system&planet=$planet&planettype=1&target_mission=6")
-    findElementById("210").sendKeys("1000")
-    findElementByClassName("planet").click()
-    findElementByXPath("//input[@type='submit']").click()
-    findElementByXPath("//input[@type='submit']").click()
+private fun RemoteWebDriver.spy(sin: String, position: Position) {
+    sendFleet(sin, position, Fleet(mapOf(Ship.EXPANSION_PROBE to 1000L)), Mission.SPY)
 }
 
 private fun RemoteWebDriver.readReport(sin: String, galaxy: Int, system: Int, planet: Int): SpyReport {

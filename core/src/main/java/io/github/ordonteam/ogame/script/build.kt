@@ -39,7 +39,7 @@ private fun RemoteWebDriver.buildOn(sin: String, cp: String) {
 }
 
 val MAX_DEATH_STAR = "body > center > form > table:nth-child(6) > tbody > tr:nth-child(14) > th:nth-child(3) > span > a"
-val BUILD = "body > center > form > table:nth-child(6) > tbody > tr:nth-child(18) > th > input[type=\"Submit\"]"
+val BUILD = "body > center > form > table:nth-child(6) > tbody > tr:nth-child(19) > th > input[type=\"Submit\"]"
 
 private fun RemoteWebDriver.doBuild(sin: String) {
     Thread.sleep(1000)

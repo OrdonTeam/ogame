@@ -28,7 +28,7 @@ private fun search() {
         Gson().fromJson<List<PlayerPoints>>(json, type)
     }
     points
-            .filter { it.id == "5506" }
+            .filter { it.id == "29" }
 //            .filter { it.points < 20_000_000_000}
 //            .filter { it.points > 1_000_000_000}
             .forEach { player ->

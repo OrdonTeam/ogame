@@ -14,6 +14,7 @@ object Build {
 
 private fun RemoteWebDriver.build() {
     val sin = loginAndGetSin()
+    buildOn(sin, "151517")
     buildOn(sin, "151623")
     buildOn(sin, "151813")
     buildOn(sin, "151627")
@@ -21,7 +22,6 @@ private fun RemoteWebDriver.build() {
     buildOn(sin, "151790")
     buildOn(sin, "151804")
     buildOn(sin, "151631")
-    buildOn(sin, "151517")
 }
 
 private fun RemoteWebDriver.buildOn(sin: String, cp: String) {

@@ -2,11 +2,10 @@ package io.github.ordonteam.ogame.script
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import io.github.ordonteam.ogame.script.grep.Planet
 import io.github.ordonteam.ogame.script.grep.PlayerPoints
+import io.github.ordonteam.ogame.script.model.Planet
 import java.io.File
 import java.lang.reflect.Type
-import java.util.*
 
 object Search {
     @JvmStatic
@@ -32,8 +31,8 @@ private fun search() {
 //            .filter { it.points < 20_000_000_000}
 //            .filter { it.points > 1_000_000_000}
             .forEach { player ->
-                val playersPlanets = planets.filter { it.id == player.id }
-                val moonsCount = playersPlanets.count { it.hasMoon ?: false }
+                val playersPlanets = planets.filter { it.playerId == player.id }
+                val moonsCount = playersPlanets.count { it.moonSize != null }
                 if (moonsCount < 20) {
                     println("$moonsCount ${playersPlanets.size} ${player.points}")
                     playersPlanets.forEach(::println)

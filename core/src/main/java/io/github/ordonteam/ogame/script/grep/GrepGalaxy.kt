@@ -3,8 +3,12 @@ package io.github.ordonteam.ogame.script.grep
 import com.google.gson.GsonBuilder
 import io.github.ordonteam.ogame.script.functions.loginAndGetSin
 import io.github.ordonteam.ogame.script.loopOnce
+import io.github.ordonteam.ogame.script.model.Planet
+import io.github.ordonteam.ogame.script.model.Position
+import io.github.ordonteam.ogame.script.model.Value
 import io.github.ordonteam.ogame.utils.wait
 import org.openqa.selenium.By
+import org.openqa.selenium.WebElement
 import org.openqa.selenium.remote.RemoteWebDriver
 import java.io.File
 
@@ -32,28 +36,40 @@ private fun RemoteWebDriver.readPlanetsFromPage(sin: String, galaxy: Int, system
             .drop(1)
             .take(15)
     println(planets.size)
-    return planets.mapIndexed { position, planet ->
-        val isPlanet = planet.findElements(By.tagName("td"))[1].findElements(By.tagName("a")).isNotEmpty()
-        if (isPlanet) {
-            val hasPlayer = planet.findElements(By.tagName("td"))[5].findElements(By.tagName("a")).isNotEmpty()
-            if (hasPlayer) {
-                val linkWithId = planet.findElements(By.tagName("td"))[5].findElement(By.tagName("a")).getAttribute("onmouseover")
-                val idAndSuffix = linkWithId.drop(linkWithId.indexOf("write&id=") + 9)
-                val id = idAndSuffix.take(idAndSuffix.indexOf("&"))
-                val hasMoon = planet.findElements(By.tagName("td"))[3].findElements(By.tagName("a")).isNotEmpty()
-                Planet(galaxy, system, position + 1, id, hasMoon)
-            } else {
-                Planet(galaxy, system, position + 1, null, null)
-            }
+    return planets.mapIndexed { index, planet ->
+        if (!isEmpty(planet)) {
+            listOf(Planet(
+                    position = Position(galaxy, system, index + 1),
+                    playerId = getPlayerId(planet),
+                    isIdle = isIdle(planet),
+                    moonSize = getMoonInfo(planet)))
         } else {
-            null
+            emptyList()
         }
-    }.filterNotNull()
+    }.flatten()
 }
 
-data class Planet(val galaxy: Int, val system: Int, val position: Int, val id: String?, val hasMoon: Boolean?)
+private fun isEmpty(planet: WebElement): Boolean {
+    val isPlanet = planet.findElements(By.tagName("td"))[1].findElements(By.tagName("a")).isNotEmpty()
+    val hasPlayer = planet.findElements(By.tagName("td"))[5].findElements(By.tagName("a")).isNotEmpty()
+    return !(isPlanet && hasPlayer)
+}
 
-private fun saveOne(galaxy: Int, system: Int, planets: List<Planet>): List<Planet> {
+private fun getPlayerId(planet: WebElement): String {
+    val linkWithId = planet.findElements(By.tagName("td"))[5].findElement(By.tagName("a")).getAttribute("onmouseover")
+    val idAndSuffix = linkWithId.drop(linkWithId.indexOf("write&id=") + 9)
+    return idAndSuffix.take(idAndSuffix.indexOf("&"))
+}
+
+fun isIdle(planet: WebElement): Value<Boolean> {
+    return Value(planet.findElements(By.className("inactive")).isNotEmpty())
+}
+
+private fun getMoonInfo(planet: WebElement): Value<Int>? {
+    val hasMoon = planet.findElements(By.tagName("td"))[3].findElements(By.tagName("a")).isNotEmpty()
+    return if (hasMoon) Value(3000) else null
+}
+
+private fun saveOne(galaxy: Int, system: Int, planets: List<Planet>) {
     File("ogam/planets$galaxy-$system.json").writeText(GsonBuilder().setPrettyPrinting().create().toJson(planets))
-    return planets
 }

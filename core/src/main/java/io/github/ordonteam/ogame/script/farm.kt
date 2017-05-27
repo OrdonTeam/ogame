@@ -7,6 +7,7 @@ import io.github.ordonteam.ogame.script.functions.sendFleet
 import io.github.ordonteam.ogame.script.model.Fleet
 import io.github.ordonteam.ogame.script.model.Position
 import io.github.ordonteam.ogame.script.model.Ship
+import io.github.ordonteam.ogame.script.model.SpyReport
 import org.openqa.selenium.remote.RemoteWebDriver
 import java.util.*
 
@@ -171,8 +172,13 @@ fun RemoteWebDriver.startFarming() {
 
 fun RemoteWebDriver.attack(sin: String, position: Position) {
     val report = generateNewSpyReport(sin, position.galaxy, position.system, position.planet)
-    if (report.resources > 2_000_000_000) {
-        sendFleet(sin, position, Fleet(mapOf(Ship.ULTRA_TRANSPORTER to 500_000L)), Mission.ATTACK)
+    attackIfValuable(report, sin, position)
+}
+
+private fun RemoteWebDriver.attackIfValuable(report: SpyReport, sin: String, position: Position) {
+    if (report.resourcesValue > 20_000_000_000) {
+        sendFleet(sin, position, Fleet(mapOf(Ship.ULTRA_TRANSPORTER to report.resources / 300_000)), Mission.ATTACK)
+        attackIfValuable(report.afterAttack(), sin, position)
     }
 }
 

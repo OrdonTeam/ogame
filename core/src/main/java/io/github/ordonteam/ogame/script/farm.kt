@@ -62,7 +62,6 @@ val targets = mutableListOf(
         Position(2, 349, 13),
         Position(2, 349, 8),
         Position(2, 349, 7),
-        Position(2, 336, 15),
         Position(2, 351, 7),
         Position(2, 351, 6),
         Position(2, 352, 1),
@@ -98,7 +97,6 @@ val targets = mutableListOf(
         Position(2, 377, 6),
         Position(2, 375, 7),
         Position(2, 375, 15),
-        Position(2, 368, 7),
         Position(2, 367, 7),
         Position(2, 360, 8),
         Position(2, 361, 11),
@@ -176,7 +174,7 @@ fun RemoteWebDriver.attack(sin: String, position: Position) {
 }
 
 private fun RemoteWebDriver.attackIfValuable(report: SpyReport, sin: String, position: Position) {
-    if (report.resourcesValue > 20_000_000_000) {
+    if (report.resourcesValue > 3_000_000_000) {
         sendFleet(sin, position, Fleet(mapOf(Ship.ULTRA_TRANSPORTER to report.resources / 300_000)), Mission.ATTACK)
         attackIfValuable(report.afterAttack(), sin, position)
     }

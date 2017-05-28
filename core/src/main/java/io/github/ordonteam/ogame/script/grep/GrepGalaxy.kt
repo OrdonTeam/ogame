@@ -5,6 +5,7 @@ import io.github.ordonteam.ogame.script.functions.loginAndGetSin
 import io.github.ordonteam.ogame.script.loopOnce
 import io.github.ordonteam.ogame.script.model.Planet
 import io.github.ordonteam.ogame.script.model.Position
+import io.github.ordonteam.ogame.script.model.Status
 import io.github.ordonteam.ogame.script.model.Value
 import io.github.ordonteam.ogame.utils.wait
 import org.openqa.selenium.By
@@ -61,8 +62,12 @@ private fun getPlayerId(planet: WebElement): String {
     return idAndSuffix.take(idAndSuffix.indexOf("&"))
 }
 
-fun isIdle(planet: WebElement): Value<Boolean> {
-    return Value(planet.findElements(By.className("inactive")).isNotEmpty())
+fun isIdle(planet: WebElement): Value<Status> {
+    if(planet.findElements(By.className("vacation")).isNotEmpty())
+        return Value(Status.BANNED)
+    if(planet.findElements(By.className("inactive")).isNotEmpty())
+        return Value(Status.INACTIVE)
+    return Value(Status.ACTIVE)
 }
 
 private fun getMoonInfo(planet: WebElement): Value<Int>? {

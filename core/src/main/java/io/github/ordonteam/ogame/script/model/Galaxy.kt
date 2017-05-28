@@ -28,7 +28,7 @@ data class System(
 data class Planet(
         val position: Position,
         val playerId: PlayerId,
-        val isIdle: Value<Boolean>,
+        val isIdle: Value<Status>,
         val moonSize: Value<Int>?)
 
 data class Position(val galaxy: Int, val system: Int, val planet: Int, val typePlanet: PlanetType = PlanetType.Planet)

@@ -28,7 +28,7 @@ object GrepGalaxy {
     }
 }
 
-private fun RemoteWebDriver.readPlanetsFromPage(sin: String, galaxy: Int, system: Int): List<Planet> {
+fun RemoteWebDriver.readPlanetsFromPage(sin: String, galaxy: Int, system: Int): List<Planet> {
     get("http://uni9.ogam.net.pl/index.php?page=galaxy&sin=$sin&galaxy=$galaxy&system=$system")
     wait(3, { findElementsByCssSelector("#loadgalaxy > table").size > 0 })
     val planets = findElementByCssSelector("#loadgalaxy > table > tbody")

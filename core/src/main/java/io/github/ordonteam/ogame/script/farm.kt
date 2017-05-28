@@ -176,11 +176,19 @@ fun RemoteWebDriver.startFarming() {
 
 fun RemoteWebDriver.attack(sin: String, position: Position) {
     val report = generateNewSpyReport(sin, position.galaxy, position.system, position.planet)
+    println("-----------------------------")
+    println("${position.galaxy} ${position.system} ${position.planet}")
+    println("${report.resources}")
+    println("${report.resourcesValue}")
+    println("${report.fleet}")
+    println("${report.defence}")
+    println("${report.isEasilyBeatable}")
+    println("-----------------------------")
     attackIfValuable(report, sin, position)
 }
 
 private fun RemoteWebDriver.attackIfValuable(report: SpyReport, sin: String, position: Position) {
-    if (report.resourcesValue > 10_000_000_000 && report.isDefenceless) {
+    if (report.resourcesValue > 10_000_000_000 && report.isEasilyBeatable) {
         sendFleet(sin, position, Fleet(mapOf(Ship.ULTRA_TRANSPORTER to report.resources / 300_000)), Mission.ATTACK)
         attackIfValuable(report.afterAttack(), sin, position)
     }

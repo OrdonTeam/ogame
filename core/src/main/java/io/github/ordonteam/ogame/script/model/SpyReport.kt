@@ -4,6 +4,7 @@ data class SpyReport(val metal: Long, val crystal: Long, val deuterium: Long, va
     val resources = metal + crystal + deuterium
     val resourcesValue = metal + 2 * crystal + 4 * deuterium
     val isDefenceless = !fleet.hasShips && !defence.hasUtilities
+    val isEasilyBeatable = fleet.isEasilyBeatable && defence.isEasilyBeatable
 
     fun afterAttack() = copy(metal = metal / 2, crystal = crystal / 2, deuterium = deuterium / 2)
 }

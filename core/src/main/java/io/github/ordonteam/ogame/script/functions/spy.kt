@@ -57,9 +57,16 @@ fun RemoteWebDriver.readReport(): SpyReport {
 }
 
 private fun RemoteWebDriver.readFleet(): Fleet {
-    val hasShips = findElementByCssSelector(FLEET_TABLE).findElements(By.tagName("tr")).size != 1
+    val fleetTable = findElementByCssSelector(FLEET_TABLE)
+    val hasShips = fleetTable.findElements(By.tagName("tr")).size != 1
     if (hasShips) {
-        return Fleet(mapOf(Ship.ULTRA_TRANSPORTER to 1L))
+        val kind = fleetTable
+                .findElements(By.xpath(".//td[@align='left']"))
+                .map { it.toShip() }
+        val count = fleetTable
+                .findElements(By.xpath(".//td[@align='right']"))
+                .map { it.toLongWithoutDots() }
+        return Fleet((0..kind.size - 1).map { kind[it] to count[it] }.toMap())
     } else {
         return Fleet(emptyMap())
     }
@@ -81,9 +88,9 @@ private fun RemoteWebDriver.readDefence(): Defence {
     }
 }
 
-private fun WebElement.toUtility(): Utility {
-    return Utility.fromText(text)
-}
+private fun WebElement.toShip() = Ship.fromText(text)
+
+private fun WebElement.toUtility() = Utility.fromText(text)
 
 private fun RemoteWebDriver.deleteReport() {
     findElementByCssSelector("body > center > center > table > tbody > tr > td:nth-child(2) > table:nth-child(2) > tbody > tr > td:nth-child(2) > table > tbody > tr:nth-child(4) > th:nth-child(2) > input[type=\"checkbox\"]").click()

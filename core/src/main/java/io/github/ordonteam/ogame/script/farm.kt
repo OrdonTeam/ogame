@@ -7,6 +7,8 @@ import io.github.ordonteam.ogame.script.functions.sendFleet
 import io.github.ordonteam.ogame.script.grep.readPlanetsFromPage
 import io.github.ordonteam.ogame.script.model.*
 import org.openqa.selenium.remote.RemoteWebDriver
+import java.io.OutputStream
+import java.io.PrintStream
 import java.util.*
 
 //val targets = mutableListOf(
@@ -153,6 +155,15 @@ val galaxy = position.galaxy
 val systems = position.system.let { (it - 100)..(it + 100) }.toMutableList().apply { Collections.shuffle(this) }
 
 object Main {
+
+    init {
+        java.lang.System.setOut(PrintStream(object : OutputStream() {
+            override fun write(b: Int) {
+
+            }
+        }))
+    }
+
     @JvmStatic
     fun main(args: Array<String>) {
         loopForEver { startFarming() }
@@ -176,14 +187,14 @@ fun RemoteWebDriver.startFarming() {
 
 fun RemoteWebDriver.attack(sin: String, position: Position) {
     val report = generateNewSpyReport(sin, position.galaxy, position.system, position.planet)
-    println("-----------------------------")
-    println("${position.galaxy} ${position.system} ${position.planet}")
-    println("${report.resources}")
-    println("${report.resourcesValue}")
-    println("${report.fleet}")
-    println("${report.defence}")
-    println("${report.isEasilyBeatable}")
-    println("-----------------------------")
+    java.lang.System.err.println("-----------------------------")
+    java.lang.System.err.println("${position.galaxy} ${position.system} ${position.planet}")
+    java.lang.System.err.println("${report.resources}")
+    java.lang.System.err.println("${report.resourcesValue}")
+    java.lang.System.err.println("${report.fleet}")
+    java.lang.System.err.println("${report.defence}")
+    java.lang.System.err.println("${report.isEasilyBeatable}")
+    java.lang.System.err.println("-----------------------------")
     attackIfValuable(report, sin, position)
 }
 

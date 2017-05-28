@@ -8,7 +8,7 @@ class CheckEnvVariable {
     @Test
     fun shouldFindLoginAndPasswordEnvironmentVariables() {
         System.getenv().forEach{key, value ->
-            println("$key $value")
+            System.err.println("$key $value")
         }
     }
 }

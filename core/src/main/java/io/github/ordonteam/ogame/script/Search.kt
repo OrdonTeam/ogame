@@ -34,9 +34,9 @@ private fun search() {
                 val playersPlanets = planets.filter { it.playerId == player.id }
                 val moonsCount = playersPlanets.count { it.moonSize != null }
                 if (moonsCount < 20) {
-                    println("$moonsCount ${playersPlanets.size} ${player.points}")
-                    playersPlanets.forEach(::println)
-                    println()
+                    System.err.println("$moonsCount ${playersPlanets.size} ${player.points}")
+                    playersPlanets.forEach { System.err.println(it) }
+                    System.err.println()
                 }
             }
 }

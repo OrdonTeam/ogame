@@ -36,7 +36,7 @@ fun RemoteWebDriver.readPlanetsFromPage(sin: String, galaxy: Int, system: Int): 
             .findElements(By.tagName("tr"))
             .drop(1)
             .take(15)
-    println(planets.size)
+    System.err.println(planets.size)
     return planets.mapIndexed { index, planet ->
         if (!isEmpty(planet)) {
             listOf(Planet(

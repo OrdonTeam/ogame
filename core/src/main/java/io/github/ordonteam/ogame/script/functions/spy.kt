@@ -46,7 +46,7 @@ private fun RemoteWebDriver.isReportAvailable(sin: String, galaxy: Int, system: 
     }
 }
 
-private fun RemoteWebDriver.readReport(): SpyReport {
+fun RemoteWebDriver.readReport(): SpyReport {
     val result = SpyReport(
             metal = findElementByCssSelector(METAL_IN_REPORT).toLongWithoutDots(),
             crystal = findElementByCssSelector(CRYSTAL_IN_REPORT).toLongWithoutDots(),
@@ -66,12 +66,23 @@ private fun RemoteWebDriver.readFleet(): Fleet {
 }
 
 private fun RemoteWebDriver.readDefence(): Defence {
-    val hasUtilities = findElementByCssSelector(DEFENCE_TABLE).findElements(By.tagName("tr")).size != 1
+    val defenceTable = findElementByCssSelector(DEFENCE_TABLE)
+    val hasUtilities = defenceTable.findElements(By.tagName("tr")).size != 1
     if (hasUtilities) {
-        return Defence(mapOf(Utility.ROCKET_LAUNCHER to 1L))
+        val kind = defenceTable
+                .findElements(By.xpath(".//td[@align='left']"))
+                .map { it.toUtility() }
+        val count = defenceTable
+                .findElements(By.xpath(".//td[@align='right']"))
+                .map { it.toLongWithoutDots() }
+        return Defence((0..kind.size - 1).map { kind[it] to count[it] }.toMap())
     } else {
         return Defence(emptyMap())
     }
+}
+
+private fun WebElement.toUtility(): Utility {
+    return Utility.fromText(text)
 }
 
 private fun RemoteWebDriver.deleteReport() {

@@ -1,9 +1,6 @@
 package io.github.ordonteam.ogame.script.functions
 
-import io.github.ordonteam.ogame.script.model.Fleet
-import io.github.ordonteam.ogame.script.model.Position
-import io.github.ordonteam.ogame.script.model.Ship
-import io.github.ordonteam.ogame.script.model.SpyReport
+import io.github.ordonteam.ogame.script.model.*
 import org.openqa.selenium.By
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.remote.RemoteWebDriver
@@ -14,6 +11,7 @@ private val METAL_IN_REPORT = "body > center > center > table > tbody > tr > td:
 private val CRYSTAL_IN_REPORT = "body > center > center > table > tbody > tr > td:nth-child(2) > table:nth-child(2) > tbody > tr > td:nth-child(2) > table > tbody > tr:nth-child(5) > td:nth-child(2) > table:nth-child(1) > tbody > tr:nth-child(2) > td:nth-child(5)"
 private val DEUTERIUM_IN_REPORT = "body > center > center > table > tbody > tr > td:nth-child(2) > table:nth-child(2) > tbody > tr > td:nth-child(2) > table > tbody > tr:nth-child(5) > td:nth-child(2) > table:nth-child(1) > tbody > tr:nth-child(3) > td:nth-child(2)"
 private val FLEET_TABLE = "body > center > center > table > tbody > tr > td:nth-child(2) > table:nth-child(2) > tbody > tr > td:nth-child(2) > table > tbody > tr:nth-child(5) > td:nth-child(2) > table:nth-child(2) > tbody"
+private val DEFENCE_TABLE = "body > center > center > table > tbody > tr > td:nth-child(2) > table:nth-child(2) > tbody > tr > td:nth-child(2) > table > tbody > tr:nth-child(5) > td:nth-child(2) > table:nth-child(3) > tbody"
 
 fun RemoteWebDriver.generateNewSpyReport(sin: String, galaxy: Int, system: Int, planet: Int): SpyReport {
     spy(sin, Position(galaxy, system, planet))
@@ -53,16 +51,26 @@ private fun RemoteWebDriver.readReport(): SpyReport {
             metal = findElementByCssSelector(METAL_IN_REPORT).toLongWithoutDots(),
             crystal = findElementByCssSelector(CRYSTAL_IN_REPORT).toLongWithoutDots(),
             deuterium = findElementByCssSelector(DEUTERIUM_IN_REPORT).toLongWithoutDots(),
-            fleet = readFleet())
+            fleet = readFleet(),
+            defence = readDefence())
     return result
 }
 
 private fun RemoteWebDriver.readFleet(): Fleet {
-    val hasShips = findElementByCssSelector(FLEET_TABLE).findElements(By.tagName("tr")).size == 1
+    val hasShips = findElementByCssSelector(FLEET_TABLE).findElements(By.tagName("tr")).size != 1
     if (hasShips) {
         return Fleet(mapOf(Ship.ULTRA_TRANSPORTER to 1L))
     } else {
         return Fleet(emptyMap())
+    }
+}
+
+private fun RemoteWebDriver.readDefence(): Defence {
+    val hasUtilities = findElementByCssSelector(DEFENCE_TABLE).findElements(By.tagName("tr")).size != 1
+    if (hasUtilities) {
+        return Defence(mapOf(Utility.ROCKET_LAUNCHER to 1L))
+    } else {
+        return Defence(emptyMap())
     }
 }
 

@@ -174,7 +174,7 @@ fun RemoteWebDriver.attack(sin: String, position: Position) {
 }
 
 private fun RemoteWebDriver.attackIfValuable(report: SpyReport, sin: String, position: Position) {
-    if (report.resourcesValue > 3_000_000_000) {
+    if (report.resourcesValue > 3_000_000_000 && report.isDefenceless) {
         sendFleet(sin, position, Fleet(mapOf(Ship.ULTRA_TRANSPORTER to report.resources / 300_000)), Mission.ATTACK)
         attackIfValuable(report.afterAttack(), sin, position)
     }

@@ -1,5 +1,6 @@
 package io.github.ordonteam.ogame.script
 
+import com.google.gson.GsonBuilder
 import io.github.ordonteam.ogame.script.functions.Mission
 import io.github.ordonteam.ogame.script.functions.generateNewSpyReport
 import io.github.ordonteam.ogame.script.functions.loginAndGetSin
@@ -7,6 +8,7 @@ import io.github.ordonteam.ogame.script.functions.sendFleet
 import io.github.ordonteam.ogame.script.grep.readPlanetsFromPage
 import io.github.ordonteam.ogame.script.model.*
 import org.openqa.selenium.remote.RemoteWebDriver
+import java.io.File
 import java.io.OutputStream
 import java.io.PrintStream
 import java.util.*
@@ -187,6 +189,7 @@ fun RemoteWebDriver.startFarming() {
 
 fun RemoteWebDriver.attack(sin: String, position: Position) {
     val report = generateNewSpyReport(sin, position.galaxy, position.system, position.planet)
+    save(report, position)
     java.lang.System.err.println("-----------------------------")
     java.lang.System.err.println("${position.galaxy} ${position.system} ${position.planet}")
     java.lang.System.err.println("${report.resources}")
@@ -196,6 +199,11 @@ fun RemoteWebDriver.attack(sin: String, position: Position) {
     java.lang.System.err.println("${report.isEasilyBeatable}")
     java.lang.System.err.println("-----------------------------")
     attackIfValuable(report, sin, position)
+}
+
+fun save(report: SpyReport, position: Position) {
+    File("ogam/reports/${position.galaxy}-${position.system}-${position.planet}.json")
+            .writeText(GsonBuilder().setPrettyPrinting().create().toJson(report))
 }
 
 private fun RemoteWebDriver.attackIfValuable(report: SpyReport, sin: String, position: Position) {

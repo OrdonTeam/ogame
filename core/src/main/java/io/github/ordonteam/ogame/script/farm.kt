@@ -150,9 +150,9 @@ import java.util.*
 //        Position(2, 419, 2)
 //).apply { Collections.shuffle(this) }
 
-val position = Position(1,373,9)
+val position = Position(1,123,9)
 val galaxy = position.galaxy
-val systems = position.system.let { (it - 100)..(it + 100) }.toMutableList().apply { Collections.shuffle(this) }
+val systems = position.system.let { (it - 100)..(it + 100) }
 
 object Main {
 
@@ -172,7 +172,7 @@ object Main {
 
 fun RemoteWebDriver.startFarming() {
     val sin = loginAndGetSin()
-    systems.forEach { system ->
+    systems.toMutableList().apply { Collections.shuffle(this) }.forEach { system ->
         readPlanetsFromPage(sin, galaxy, system)
                 .filter { it.isIdle.value == Status.INACTIVE }
                 .forEach {

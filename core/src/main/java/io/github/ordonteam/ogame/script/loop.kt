@@ -1,5 +1,6 @@
 package io.github.ordonteam.ogame.script
 
+import io.github.ordonteam.ogame.script.functions.recoverFromAntybot
 import org.openqa.selenium.remote.DesiredCapabilities
 import org.openqa.selenium.remote.RemoteWebDriver
 import java.net.URL
@@ -26,6 +27,7 @@ fun loopOnce(block: RemoteWebDriver.() -> Unit) {
         driver.block()
     } catch (e: Exception) {
         e.printStackTrace()
+        driver.recoverFromAntybot()
         Thread.sleep(3 * 60 * 1000L)
     } finally {
         driver.close()

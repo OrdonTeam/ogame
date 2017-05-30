@@ -19,9 +19,13 @@ fun RemoteWebDriver.sendFleet(sin: String, target: Position, fleet: Fleet, missi
     } else {
         fleet.ships.forEach { ship, count ->
             findElementById(ship.id).sendKeys(count.toString())
+            Thread.sleep(500)
         }
+        Thread.sleep(500)
         findElementByClassName("planet").click()
+        Thread.sleep(500)
         findElementByXPath("//input[@type='submit']").click()
+        Thread.sleep(500)
         findElementByXPath("//input[@type='submit']").click()
     }
 }

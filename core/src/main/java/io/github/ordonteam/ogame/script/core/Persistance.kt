@@ -10,10 +10,6 @@ fun save(file: String, report: SpyReport) {
     File(file).writeText(GsonBuilder().setPrettyPrinting().create().toJson(report))
 }
 
-inline fun <reified T> read(fileName: String): T {
-    return Gson().fromJson<T>(File(fileName).readText(), object : TypeToken<T>() {}.type)
-}
-
 inline fun <reified T> readNullable(fileName: String): T? {
     val file = File(fileName)
     if (file.exists()) {
@@ -21,4 +17,12 @@ inline fun <reified T> readNullable(fileName: String): T? {
     } else {
         return null
     }
+}
+
+inline fun <reified T> read(fileName: String): T {
+    return Gson().fromJson<T>(File(fileName).readText(), object : TypeToken<T>() {}.type)
+}
+
+inline fun <reified T> read(file: File): T {
+    return Gson().fromJson<T>(file.readText(), object : TypeToken<T>() {}.type)
 }

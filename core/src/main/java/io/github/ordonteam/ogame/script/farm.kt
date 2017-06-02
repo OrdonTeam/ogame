@@ -2,6 +2,7 @@ package io.github.ordonteam.ogame.script
 
 import io.github.ordonteam.ogame.script.core.readNullable
 import io.github.ordonteam.ogame.script.core.save
+import io.github.ordonteam.ogame.script.core.simulate
 import io.github.ordonteam.ogame.script.functions.Mission
 import io.github.ordonteam.ogame.script.functions.generateNewSpyReport
 import io.github.ordonteam.ogame.script.functions.loginAndGetSin
@@ -90,8 +91,9 @@ fun saveReport(report: SpyReport, position: Position) {
 }
 
 private fun RemoteWebDriver.attackIfValuable(report: SpyReport, sin: String, position: Position) {
-    if (report.resourcesValue > 10_000_000_000 && report.isEasilyBeatable) {
-        sendFleet(sin, position, Fleet(mapOf(Ship.ULTRA_TRANSPORTER to report.resources / 300_000)), Mission.ATTACK)
+    val fleet = Fleet(mapOf(Ship.ULTRA_TRANSPORTER to report.resources / 300_000))
+    if (report.resourcesValue > 10_000_000_000 && simulate(fleet, report.fleet, report.defence)) {
+        sendFleet(sin, position, fleet, Mission.ATTACK)
         attackIfValuable(report.afterAttack(), sin, position)
     }
 }

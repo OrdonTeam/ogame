@@ -20,7 +20,7 @@ object GrepGalaxy {
             val sin = loginAndGetSin()
             (1..11).forEach { galaxy ->
                 (1..499).forEach { system ->
-                    if (!File("ogam/planets$galaxy-$system.json").exists()) {
+                    if (!File("ogam/planets/planets$galaxy-$system.json").exists()) {
                         saveOne(galaxy, system, readPlanetsFromPage(sin, galaxy, system))
                     }
                 }
@@ -76,5 +76,5 @@ private fun getMoonInfo(planet: WebElement): Value<Int>? {
 }
 
 private fun saveOne(galaxy: Int, system: Int, planets: List<Planet>) {
-    File("ogam/planets$galaxy-$system.json").writeText(GsonBuilder().setPrettyPrinting().create().toJson(planets))
+    File("ogam/planets/planets$galaxy-$system.json").writeText(GsonBuilder().setPrettyPrinting().create().toJson(planets))
 }

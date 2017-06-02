@@ -28,7 +28,7 @@ fun loopOnce(block: RemoteWebDriver.() -> Unit) {
     } catch (e: Exception) {
         e.printStackTrace()
         driver.recoverFromAntybot()
-        Thread.sleep(3 * 60 * 1000L)
+        Thread.sleep(60 * 1000L)
     } finally {
         driver.close()
     }

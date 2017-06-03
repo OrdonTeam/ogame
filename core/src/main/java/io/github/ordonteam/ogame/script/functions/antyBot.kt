@@ -17,7 +17,7 @@ private val ANTYBOT_QUESTION = "body > center > form > table > tbody > tr:nth-ch
 private val ANTYBOT_ANSWER = "body > center > form > table > tbody > tr:nth-child(2) > th:nth-child(2) > input[type=\"text\"]"
 private val ANTYBOT_CONFIRM = "body > center > form > table > tbody > tr:nth-child(2) > th:nth-child(3) > input[type=\"Submit\"]"
 
-fun RemoteWebDriver.recoverFromAntybot() {
+fun RemoteWebDriver.recoverFromAntybot(): Boolean {
     try {
         val isAntybot = detectAntybot()
         System.err.println("Is Antybot = $isAntybot")
@@ -27,11 +27,13 @@ fun RemoteWebDriver.recoverFromAntybot() {
             val answer = calculateAnswer(question)
             System.err.println("Antybot answer = $answer")
             antybotInsertAnswer(answer)
+            return true
         }
     } catch (e: Exception) {
         System.err.println("Unable to recover from antybot")
         e.printStackTrace()
     }
+    return false
 }
 
 private fun RemoteWebDriver.detectAntybot(): Boolean {

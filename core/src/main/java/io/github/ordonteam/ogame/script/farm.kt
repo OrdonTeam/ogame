@@ -15,10 +15,11 @@ import java.io.PrintStream
 import java.lang.System
 import java.util.*
 
-val target = Triple("155506", 1, 1..250)
-//val target = Triple("157445", 2, 1..250)
-//val target = Triple("155495", 3, 1..250)
-//val target = Triple("155498", 3, 250..499)
+val target1 = Triple("155506", 1, 1..250)
+val target2 = Triple("157445", 2, 1..250)
+val target3 = Triple("155495", 3, 1..250)
+val target4 = Triple("155498", 3, 250..499)
+val targets = mutableListOf(target1, target2, target3, target4)
 
 object Main {
 
@@ -34,7 +35,10 @@ object Main {
     fun main(args: Array<String>) {
         loopForEver {
             val sin = loginAndGetSin()
-            startFarming(sin, target.first, target.second, target.third)
+            targets.apply { Collections.shuffle(this) }
+                    .forEach { (cp, galaxy, systems) ->
+                        startFarming(sin, cp, galaxy, systems)
+                    }
         }
     }
 }

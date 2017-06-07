@@ -15,7 +15,7 @@ fun RemoteWebDriver.generateNewSpyReport(sin: String, galaxy: Int, system: Int, 
 }
 
 private fun RemoteWebDriver.spy(sin: String, position: Position) {
-    sendFleet(sin, position, Fleet(mapOf(Ship.EXPANSION_PROBE to 1000L)), Mission.SPY)
+    sendFleet(sin, position, Fleet(mapOf(Ship.EXPANSION_PROBE to 300L)), Mission.SPY)
 }
 
 private fun RemoteWebDriver.waitForReport(sin: String, galaxy: Int, system: Int, planet: Int) {

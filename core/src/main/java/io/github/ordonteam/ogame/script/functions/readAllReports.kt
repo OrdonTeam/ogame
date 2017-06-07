@@ -8,7 +8,7 @@ import org.openqa.selenium.remote.RemoteWebDriver
 private val SPY_MESSAGES = "body > center > center > table:nth-child(2) > tbody > tr:nth-child(4) > th:nth-child(1) > a > font"
 private val ALL_MESSAGE_TABLE = "body > center > center > table > tbody > tr > td:nth-child(2) > table:nth-child(2) > tbody > tr > td:nth-child(2) > table > tbody"
 private val DELETE_MESSAGE = "th:nth-child(2) > input[type=\"checkbox\"]"
-private val REPORT_TITLE = "td:nth-child(2) > table:nth-child(1) > tbody > tr:nth-child(1) > td"
+private val REPORT_TITLE = "td:nth-child(2) > table:nth-child(1) > tbody > tr:nth-child(1) > td > a"
 private val METAL_IN_REPORT = "td:nth-child(2) > table:nth-child(1) > tbody > tr:nth-child(2) > td:nth-child(2)"
 private val CRYSTAL_IN_REPORT = "td:nth-child(2) > table:nth-child(1) > tbody > tr:nth-child(2) > td:nth-child(5)"
 private val DEUTERIUM_IN_REPORT = "td:nth-child(2) > table:nth-child(1) > tbody > tr:nth-child(3) > td:nth-child(2)"

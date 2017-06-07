@@ -15,9 +15,10 @@ import java.io.PrintStream
 import java.lang.System
 import java.util.*
 
-val position = Position(1, 123, 9)
-val galaxy = position.galaxy
-val systems = position.system.let { (it - 100)..(it + 100) }
+val target = Triple("155506", 1, 1..250)
+//val target = Triple("157445", 2, 1..250)
+//val target = Triple("155495", 3, 1..250)
+//val target = Triple("155498", 3, 250..499)
 
 object Main {
 
@@ -31,12 +32,15 @@ object Main {
 
     @JvmStatic
     fun main(args: Array<String>) {
-        loopForEver { startFarming() }
+        loopForEver {
+            val sin = loginAndGetSin()
+            startFarming(sin, target.first, target.second, target.third)
+        }
     }
 }
 
-fun RemoteWebDriver.startFarming() {
-    val sin = loginAndGetSin()
+fun RemoteWebDriver.startFarming(sin: String, cp: String, galaxy: Int, systems: IntRange) {
+    get("http://uni9.ogam.net.pl/index.php?page=marchand&sin=$sin&cp=$cp&mode=&re=0")
     systems.toMutableList().apply { Collections.shuffle(this) }.forEach { system ->
         readPlanetsFromPage(sin, galaxy, system)
                 .filter { it.isIdle.value == Status.INACTIVE }
@@ -52,9 +56,9 @@ fun RemoteWebDriver.startFarming() {
 
 fun RemoteWebDriver.attack(sin: String, position: Position) {
     val previousReport = readPreviousReport(position)
-    if(previousReport == null){
+    if (previousReport == null) {
         spyAndAttack(sin, position)
-    }else{
+    } else {
         if (previousReport.resources > 24_000_000) {
             spyAndAttack(sin, position)
         } else {
@@ -93,6 +97,7 @@ fun saveReport(report: SpyReport, position: Position) {
 private fun RemoteWebDriver.attackIfValuable(report: SpyReport, sin: String, position: Position) {
     val fleet = Fleet(mapOf(Ship.ULTRA_TRANSPORTER to report.resources / 300_000))
     if (report.resourcesValue > 10_000_000_000 && simulate(fleet, report.fleet, report.defence)) {
+        System.err.println("ATTACKING")
         sendFleet(sin, position, fleet, Mission.ATTACK)
         attackIfValuable(report.afterAttack(), sin, position)
     }

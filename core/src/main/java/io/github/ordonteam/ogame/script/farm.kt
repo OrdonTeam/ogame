@@ -19,7 +19,9 @@ val target1 = Triple("155506", 1, 1..250)
 val target2 = Triple("157445", 2, 1..250)
 val target3 = Triple("155495", 3, 1..250)
 val target4 = Triple("155498", 3, 250..499)
-val targets = mutableListOf(target1, target2, target3, target4)
+val target5 = Triple("157696", 4, 1..250)
+val target6 = Triple("157698", 4, 250..499)
+val targets = mutableListOf(target1, target2, target3, target4, target5, target6)
 
 object Main {
 

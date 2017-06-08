@@ -3,10 +3,7 @@ package io.github.ordonteam.ogame.script
 import io.github.ordonteam.ogame.script.core.readNullable
 import io.github.ordonteam.ogame.script.core.save
 import io.github.ordonteam.ogame.script.core.simulate
-import io.github.ordonteam.ogame.script.functions.Mission
-import io.github.ordonteam.ogame.script.functions.generateNewSpyReport
-import io.github.ordonteam.ogame.script.functions.loginAndGetSin
-import io.github.ordonteam.ogame.script.functions.sendFleet
+import io.github.ordonteam.ogame.script.functions.*
 import io.github.ordonteam.ogame.script.grep.readPlanetsFromPage
 import io.github.ordonteam.ogame.script.model.*
 import org.openqa.selenium.remote.RemoteWebDriver
@@ -39,8 +36,16 @@ object Main {
             val sin = loginAndGetSin()
             targets.apply { Collections.shuffle(this) }
                     .forEach { (cp, galaxy, systems) ->
+                        doDeposits(sin)
                         startFarming(sin, cp, galaxy, systems)
                     }
+        }
+    }
+
+    private fun RemoteWebDriver.doDeposits(sin: String) {
+        targets.forEach { (first) ->
+            get("http://uni9.ogam.net.pl/index.php?page=marchand&sin=$sin&cp=$first&mode=&re=0")
+            deposit(sin)
         }
     }
 }

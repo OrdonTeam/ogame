@@ -106,4 +106,4 @@ private fun readDefence(body: WebElement): Defence {
 
 private fun WebElement.toUtility() = Utility.fromText(text)
 
-private fun WebElement.toLongWithoutDots() = text.replace(".", "").toLong()
+fun WebElement.toLongWithoutDots() = text.replace(".", "").toLong()

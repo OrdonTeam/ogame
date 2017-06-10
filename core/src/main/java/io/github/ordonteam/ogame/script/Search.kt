@@ -12,7 +12,7 @@ import java.lang.reflect.Type
 object Search {
     @JvmStatic
     fun main(args: Array<String>) {
-        searchReports()
+        searchPlanets()
     }
 }
 
